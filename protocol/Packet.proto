@@ -1,0 +1,163 @@
+//option optimize_for = LITE_RUNTIME;
+
+package PWRD;
+
+enum TYPE{
+
+	HA = 1;
+
+	MAIL = 2;
+
+	LOST = 3;
+
+	STORE = 4;
+
+	PKLIST = 5;
+
+	SHITLIST = 6;
+
+	REGISTRY = 7;
+
+	PROPERTY = 8;
+
+	FIGHTING = 9;
+
+	SNSFRIENDS = 10;
+
+	PROPATTACK = 11;
+
+	CONFIGFILE = 12;
+
+	FIGHTRESULT = 13;
+
+	FIGHTHISTORY = 14;
+
+	VERSIONUPDATE = 15;
+
+}
+
+enum STAT{
+
+	FIGHT = 1;
+
+	BUSY = 2;
+
+	IDLE = 3;
+
+}
+
+message Dress{
+
+	required int32 id = 1;
+
+	required int32 defense = 2;
+
+}
+
+message Prop{
+
+	required int32 id = 1;
+
+	required int32 harm = 2;
+
+}
+
+message Energy{
+
+	required int32 id = 1;
+
+	optional int32 defense = 2;
+
+	optional int32 addhp = 3;
+
+}
+
+message Property{
+
+	required string uid = 1;
+
+	required string name = 2;
+
+	required int32  hp = 3;
+
+	required int32  rank = 4;
+
+	required int32  faint = 5;
+
+	repeated Dress dress = 6;
+
+	repeated Prop  prop = 7;
+
+	repeated Energy energy = 8;
+
+
+}
+
+message Exception{
+
+	required int32 exp_id = 1;
+
+}
+
+message Stat{
+
+	required string uid = 1;
+
+	required STAT stat = 2;
+
+}
+
+message PKList{
+	
+	repeated Property property = 1;
+
+}
+
+message PKListStat{
+
+	repeated Stat stat = 1;
+
+}
+
+message Fight{
+
+	required int32 boxing = 1; //left, rigth, continued hit, others....
+
+	required int32 hp = 2;	
+
+	optional Prop prop = 3;
+
+	optional Exception exp = 4;
+
+}
+
+message FightResult{
+
+	required string uid = 1;
+
+	required int32 experience = 2;
+
+	required int32 bonus = 3;
+
+	required bool clear = 4;
+
+
+}
+
+message Mail{
+
+	required string uid = 1;
+
+	required string mail = 2;
+
+}
+
+message File{
+
+	required string uid = 1;
+
+	required string content = 2;
+
+	required string md5sum = 3;
+
+}

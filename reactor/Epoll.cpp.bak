@@ -1,0 +1,189 @@
+#include <cassert>
+#include "Exception.hpp"
+
+#include "Epoll.hpp"
+
+namespace PWRD{
+
+	namespace Event{
+
+		Epoll::Epoll(int size)
+		{
+			assert(size != 0);
+
+			epfd_ = epoll_create(size);
+
+			if (epfd_ == -1)
+
+				throw Exception("Create epoll failed, ");
+
+
+			size_ = size;
+
+			evts_ = new struct epoll_event[size];
+
+			gettimeofday(&before_, NULL);
+
+		}
+
+		Epoll::~Epoll()
+		{
+			close(epfd_);
+
+			delete[] evts_;
+
+		}
+
+		void Epoll::DispatchEvent()
+		{
+			int fds = epoll_wait(epfd_, evts_, size_, -1); 
+
+			if (fds == -1){
+
+				if (errno == EINTR)
+					return;
+
+				throw Exception("Epoll epoll_wait failed, ");
+
+			}
+
+			//timer: gettimeofday
+			gettimeofday(&now_, NULL);
+
+			if(now_.tv_sec - before_.tv_sec >= INTERVAL){
+
+				TimeQ::iterator iter = TimerQueue::timeq().begin();
+
+				//Trace("TRACE Timeout <<<<>>>> interval: sec=%d, tqsize=%d, threshold=%d",
+						//now_.tv_sec - before_.tv_sec, TimerQueue::timeq().size(), TimerQueue::threshold());
+				
+
+				for(; iter != TimerQueue::timeq().end(); ){
+
+					EventHandler* handler = iter->first;	
+
+					//Trace("TRACE =======seconds=%d=======", iter->second);
+
+					iter->second = iter->second - INTERVAL;
+
+					if(0 == (iter->second % HEARTBEAT)){
+
+						//heartbeat
+						handler->Send();
+
+					}
+
+					//Trace("TRACE =======seconds=%d=======", iter->second);
+
+
+					if(INTERVAL > iter->second){
+
+						//Trace("TRACE =========>: intra=%d, second=%d", INTERVAL, iter->second);
+
+						bool flag;
+
+						handler->Timeout(flag);						
+
+						iter->second = TimerQueue::threshold();
+
+						if(flag){
+
+							Trace("TRACE Remove this handler from TimerQueue");
+
+							TimeQ::iterator bit = iter;
+
+							iter++;
+
+							TimerQueue::timeq().erase(bit);
+						}
+
+						else{
+
+							iter++;
+
+						}
+
+					}
+					else{
+
+						iter++;
+						
+					}
+
+				}
+
+				gettimeofday(&before_, NULL);
+
+			}
+
+			for (int i = 0; i < fds; ++i)
+			{
+
+				EventHandler* handler = reinterpret_cast<EventHandler*>(evts_[i].data.ptr);
+
+				if (evts_[i].events & EventHandler::READ_MASK)
+				{
+
+					if (handler->Receive() == -1)
+
+						handler->Close();
+
+				}
+
+				if (evts_[i].events & EventHandler::WRITE_MASK)
+				{
+
+					if (handler->Send() == -1){
+
+						Trace("TRACE SENDSENDSENDSENDSENDSENDSENDSENSEND");
+
+						handler->Close();
+
+					}
+
+
+				}
+			}
+		}
+
+		void Epoll::Register(EventHandler* eh, ReactorMask mask) {
+
+			//if (!OperateHandler(EPOLL_CTL_ADD, eh, mask | EPOLLET)){
+			if (!OperateHandler(EPOLL_CTL_ADD, eh, mask)){
+
+				throw Exception("Register failed, ");
+
+			}
+
+		}
+
+		void Epoll::Remove(EventHandler* eh){
+
+			//if (!OperateHandler(EPOLL_CTL_DEL, eh, ALL_EVENTS_MASK | EPOLLET))
+			if (!OperateHandler(EPOLL_CTL_DEL, eh, EventHandler::ALL_EVENTS_MASK))
+
+				throw Exception("Remove failed, ");
+
+		}
+
+		void Epoll::EnableMask(EventHandler* eh, ReactorMask mask) {
+
+			//if (!OperateHandler(EPOLL_CTL_MOD, eh, mask | EPOLLET))
+			if (!OperateHandler(EPOLL_CTL_MOD, eh, mask))
+
+				throw Exception("EnableMask failed, ");
+
+		}
+
+		void Epoll::DisableMask(EventHandler* eh, ReactorMask mask) {
+
+			if (!OperateHandler(EPOLL_CTL_DEL, eh, mask))
+
+				throw Exception("DisableMask failed, ");
+
+		}
+
+	}
+
+}
+

@@ -1,0 +1,6 @@
+[MySQL]
+host=tcp://localhost:3306
+user=root
+pass=
+name=Test
+qurey=Select ip, port, status from test;

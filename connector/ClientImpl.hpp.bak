@@ -1,0 +1,68 @@
+#ifndef __CLIENTIMPL_HPP
+#define __CLIENTIMPL_HPP
+
+#include <Conf.hpp>
+
+#include <Client.hpp>
+
+#include <Address.hpp>
+
+#include <MonitorBlock.hpp>
+
+#include <boost/lexical_cast.hpp>
+
+#define TCP_SERVER_PORT 11101
+
+#define UDP_SERVER_PORT 11100
+
+using namespace PWRD;
+
+using namespace PWRD::JSON;
+
+using namespace PWRD::Network;
+
+namespace PWRD{
+
+	namespace Network{
+
+		class ClientImpl{
+
+			public:
+
+				ClientImpl(string& _file, SyncQueue<Request*>* _syncq, ActiveQueue<string*>* _activeq):file_(_file), syncq_(_syncq), activeq_(_activeq){ init(); };
+
+
+				virtual ~ClientImpl(){ fini(); };
+
+				void Open();
+
+			protected:
+
+				int init();
+
+				int fini();
+
+			private:
+
+				int Load();
+
+				int timeout_;
+
+				string file_;
+
+				Address tcpaddr_;
+
+				string tcphost_;
+
+				Client *server_;
+
+				SyncQueue<Request*>* syncq_;
+
+				ActiveQueue<string*>* activeq_;
+		};
+
+	}
+
+}
+
+#endif

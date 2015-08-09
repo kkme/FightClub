@@ -1,0 +1,51 @@
+#ifndef __EXPERINCE_HPP
+#define __EXPERINCE_HPP
+
+#include <Conf.hpp>
+
+#include <Mutex.hpp>
+
+#include <Deamon.hpp>
+
+#include <Global.hpp>
+
+using namespace PWRD;
+
+using namespace PWRD;
+namespace PWRD{
+
+	namespace Game{
+	
+		typedef map<int, int> ExpMap;
+
+		class Experience{
+		
+			public:
+
+				static Experience* Instance();
+
+				virtual ~Experience(){ fini(); }
+
+			protected:
+
+				Experience(){ init(); }
+
+				static int init();
+
+				static int fini();
+
+			private:
+
+				static ExpMap minuemap_;
+
+				static ExpMap equalmap_;
+		
+		}; //Experience
+	
+	
+	} //Game
+
+} //PWRD
+
+#endif
+

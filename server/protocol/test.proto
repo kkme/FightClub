@@ -1,0 +1,16 @@
+message C{
+
+	message A{
+
+		required string name = 1;
+	}
+
+	message B{
+
+		optional A a = 1;
+
+		required string name = 2;
+
+	}
+
+}

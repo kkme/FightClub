@@ -1,0 +1,19 @@
+option optimize_for = LITE_RUNTIME;
+
+package PWRD;
+
+enum TYPE{
+
+	HA = 1;
+
+	LOG = 2;
+
+}
+
+message LogRecord{
+
+	required int32 type = 1;
+
+	required string message = 2;
+	
+}

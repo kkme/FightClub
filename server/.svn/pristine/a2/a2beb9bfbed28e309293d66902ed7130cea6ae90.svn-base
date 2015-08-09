@@ -1,0 +1,19 @@
+#!/bin/bash
+
+cp Client litanhua -f
+cp Client liuxin -f
+cp Client gongcheng -f
+cp Client zhaozhiyang -f
+
+cd litanhua
+./Client Litanhua
+
+cd ../zhaozhiyang
+./Client ZhaoZhiyang
+
+cd ../liuxin
+./Client LiuXin
+
+
+cd ../gongcheng
+./Client GongCheng

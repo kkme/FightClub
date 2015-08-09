@@ -1,0 +1,5 @@
+[DBService]
+host=tcp://localhost:3306
+user=root
+pass=
+name=Test

@@ -1,0 +1,71 @@
+#include <sstream>
+#include <Exception.hpp>
+#include <Address.hpp>
+#include <BasicSocket.hpp>
+
+using namespace PWRD;
+
+namespace PWRD{
+
+	namespace Network{
+
+		template <class SocketType>
+			BasicSocket<SocketType>::BasicSocket(void){
+
+				Attach(INVALID_HANDLE);
+			}
+
+		template <class SocketType>
+			BasicSocket<SocketType>::~BasicSocket(void) {
+
+				Close();
+
+			}
+
+		template <class SocketType>
+			void BasicSocket<SocketType>::Open() {
+
+				Handle sock = ::socket(SocketType::Family(), SocketType::SocketType(), SocketType::Protocol());
+
+				if (sock == INVALID_HANDLE)
+
+					throw PWRD::Event::Exception("Create a socket failed!");
+
+				int optval;
+
+				if(::setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(int)) < 0){
+
+					throw PWRD::Event::Exception("Setsockopt failed!");
+				}
+
+				Attach(sock);
+			}
+
+		template <class SocketType>
+			void BasicSocket<SocketType>::Open(const Address& addr) {
+
+				Open();
+
+				if (::bind(GetHandle(), (sockaddr*)(&addr.Sockaddr()), sizeof(sockaddr_in)) == FAILED)
+
+					throw PWRD::Event::Exception("Bind a socket failed!");
+
+			}
+
+		/**
+		 * Destory socket object.
+		 */
+		template <class SocketType>
+			void BasicSocket<SocketType>::Close() {
+
+				if (GetHandle() != INVALID_HANDLE){
+
+					CloseSocket(GetHandle());
+
+					Attach(INVALID_HANDLE);
+
+				}
+			}
+	}
+}
+

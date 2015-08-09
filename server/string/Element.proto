@@ -1,0 +1,45 @@
+package PWRD;
+
+message Entity{
+
+	enum DATA_TYPE{
+
+		BOOL = 0;
+
+		INT = 1;
+	};
+
+	required DATA_TYPE type = 1;
+
+	required string key = 2;
+
+	optional int32  total = 3;
+
+	optional int32  use = 4;
+
+}
+
+message Element{
+
+	enum ELEMENT_TYPE{
+
+
+		ITEM_TYPE = 0;
+
+		EQUIP_TYPE = 1;
+
+		BUFF_TYPE = 2;
+
+		FRIENDS_TYPE = 3;
+
+		PKLIST_TYPE = 4;
+
+		NULL_TYPE = 100;
+
+	};
+
+	required ELEMENT_TYPE type = 1;
+
+	repeated Entity entity = 2;
+
+}

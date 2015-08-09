@@ -1,0 +1,32 @@
+[LogserviceTcpServer]
+type			=	tcp
+port			=	11101
+address			=       127.0.0.1
+so_sndbuf		=	16384
+so_rcvbuf		=	16384
+ibuffermax		=	2097152
+obuffermax		=	16384
+tcp_nodelay		=	0
+listen_backlog	=	10
+accumulate		=	2097152
+
+
+[timeout]
+interval = 150
+
+[Version]
+version = 0.1.0
+path  = AuUP.conf
+
+[DataBase]
+host = tcp://loalhost:3306
+user = root
+pass = FightClub
+name = FightClub
+select = select Pro.uid, Pro.hp, Pro.rank, Pro.faint, Dr.id as dress_id, Dr.defens as dress_defens, Prop.id as prop_id, Prop.harm, En.id as energy_id, En.defens as enerty_defens, En.addhp from Property  Pro, Dress Dr, Prop, Energy  En where Pro.uid=? and Pro.dress_id = Dr.id and Pro.prop_id = Prop.id and Pro.energy_id = En.id;
+insert = insert into Property(uid, hp, rank, faint, dress_id, prop_id, energy_id) select ?, 99, 100, 1, 2, 3, 3 from Property where not exists (select * from Property where uid=?)
+
+[TestCase]
+name = ZhaoZhiyang
+uid = ZhaoZhiyang
+fuid = Litanhua

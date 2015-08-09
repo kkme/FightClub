@@ -1,0 +1,8 @@
+#!/bin/bash
+
+rm -f core.*
+
+rm -f FightClub.log
+
+kill -9 `cat FightClub.pid` 
+

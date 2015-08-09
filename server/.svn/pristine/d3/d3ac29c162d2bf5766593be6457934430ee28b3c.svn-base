@@ -1,0 +1,520 @@
+package PWRD;
+
+enum TYPE{
+
+	HA = 100;
+
+	LOST = 1;
+
+	REGISTRY = 2;
+
+	FILELIST = 3;
+
+	PKLIST = 4;
+
+	PKSTAT = 5;
+
+	PROPERTY = 6;
+
+	FIGHTREQUEST = 7;
+
+	FIGHTRESPONSE = 8;
+
+	FIGHTING = 9;
+
+	QTE = 10;
+
+	ITEM = 11;
+
+	HARDBEAT = 12;
+
+	FIGHTRESULT = 13;
+
+	PKTOP = 14;
+
+	ROOM = 15;
+
+	TIMEDELAY = 20;
+
+	BILL = 21;
+
+        MAIL = 22;
+
+	MONEY = 23;
+
+        GOLD = 24;
+
+	ADDFRIENDLIST = 25;
+
+	RANK = 26;
+
+        FRIENDLIST = 27;
+
+	RANKTOP = 28;
+
+	VERSION = 29;
+
+	LOGIN = 30;
+
+}
+
+enum RESULT{
+
+	WIN = 1;
+
+	LOSE = 2;
+
+	RUN = 3;
+
+}
+
+enum STAT{ 
+
+
+	FIGHT = 1; 
+
+	BUSY = 2;
+
+	IDLE = 3;
+
+	BREAK = 4;
+
+}
+
+message File{
+
+	required string path = 1;
+
+	required string content = 2;
+
+	required string md5sum = 3;
+
+	required bool match = 4;
+
+}
+
+message Status{
+
+	required string path = 1;
+
+}
+
+message C2S_FileStatus{
+
+	required bool match = 1;
+
+	repeated Status stat = 2;
+
+}
+
+message S2C_FileList{
+
+	repeated File file = 1;
+
+}
+
+message C2S_Version{
+
+	required string version = 1;
+
+}
+
+message S2C_Version{
+
+	required bool match = 1;
+
+	repeated File flist = 2;
+
+}
+
+message C2S_Registe{
+
+	required string rolename = 1;
+
+	required string uuid = 2;
+
+}
+
+message S2C_Registe{
+
+	required string roleid = 1;
+}
+
+message C2S_Login{
+
+	required string roleid = 1;
+
+}
+
+message S2C_Login{
+
+	required bool ok = 1;
+
+}
+
+message C2S_Room{
+
+	required string roleid = 1;
+
+}
+
+message S2C_Room{
+	
+	required string roleid = 1;
+
+	required int32 online = 2;
+
+	required string bulletin = 3;
+
+	required int32 mail = 4;
+
+}
+
+message C2S_TimeStamp{
+
+	required string timestamp = 1;
+
+}
+
+message S2C_TimeStamp{
+
+	required string timestamp = 1;
+
+}
+
+message Equipment{
+
+	required string roleid = 1;
+
+	required string elist = 2;
+
+}
+
+message C2S_Property{
+
+	required string roleid = 1;
+
+}
+
+message S2C_Property{
+
+	required string roleid = 1;
+
+	required string rolename = 2;
+
+	required int32  pklevel = 3;
+
+	required int32  pkexp = 4;
+
+	required int32  rankexp = 5;
+
+	required int32  ranklevel = 6;
+
+	required int32  money = 7;
+
+	required int32  gold = 8;
+
+	required string items = 9;
+
+	required string equips = 10;
+
+	required string buffs = 11;
+
+}
+
+
+message PKProperty{
+
+	required string roleid = 1;
+
+	required string rolename = 2;
+
+	required int32  pklevel = 3;
+
+	required int32  pkexp = 4;
+
+	required int32  ranklevel = 5;
+
+	required int32  rankexp = 6;
+
+	required string items = 7;
+
+	required string equips = 8;
+
+	required string buffs = 9;
+
+}
+
+
+message C2S_PKList{
+
+	required string roleid = 1;
+
+	required string request = 2;
+}
+
+message PKTop{
+
+	required string roleid = 1;
+
+	required int32 pkexp = 2;
+
+}
+
+message PKTopList{
+
+	repeated PKTop pktop = 1;
+
+}
+
+message C2S_Bill{
+
+	required string roleid = 1;
+
+	required string itemid = 2;
+
+	required int32 num = 3;
+
+}
+
+message S2C_Bill{
+
+	required string roleid = 1;
+
+	required int32 status = 2; //1: success; other, failed
+	
+
+}
+
+message S2C_Gold{
+
+	required string roleid = 1;
+
+	required int32 gold = 2; //current gold
+}
+
+
+message S2C_Money
+
+	required string roleid = 1;
+
+	required int32 money = 2; //current money 
+}
+
+
+message C2S_PKStat{
+
+	required string roleid = 1;
+
+}
+
+message S2C_PKStat{
+
+	required string roleid = 1;
+
+	required STAT stat = 2;
+
+}
+
+message S2C_PKList{
+
+	repeated PKProperty pkpro = 1;
+
+}
+
+message C2S_FightRequest{
+
+	required string roleid = 1;
+
+	required string froleid = 2;
+
+}
+
+message S2C_FightRequest{
+
+	required string roleid = 1;
+
+	required string froleid = 2;
+
+}
+
+message C2S_FightResponse{
+
+	required string roleid = 1;
+
+	required string froleid = 2;
+
+	required bool ido = 3;
+
+}
+
+message S2C_FightResponse{
+
+	required string roleid = 1;
+
+	required string froleid = 2;
+
+	required bool ido = 3;
+
+}
+
+message Beat{
+
+	required int32 hp = 1;
+
+	required string  animation = 2;
+
+}
+
+message C2S_Fight{
+
+	required string roleid = 1;
+
+	required string froleid = 2;
+
+	required Beat beat = 3;
+
+
+}
+
+message S2C_Fight{
+
+	required string roleid = 1;
+
+	required string froleid = 2;
+
+	required Beat beat = 3;
+
+}
+
+message C2S_HardBeat{
+
+	required string roleid = 1;
+
+	required string froleid = 2;
+
+	required Beat beat = 3;
+
+}
+
+message S2C_HardBeat{
+
+	required string roleid = 1;
+
+	required string froleid = 2;
+
+	required Beat beat = 3;
+
+}
+
+message QTE_Beat{
+
+	required int32 hp = 1;
+
+	required int32 during = 2;
+
+}
+
+message C2S_QTE{
+
+	required string roleid = 1;
+
+	required string froleid = 2;
+
+	repeated QTE_Beat qte = 3;
+
+}
+
+message S2C_QTE{
+
+	required string roleid = 1;
+
+	required string froleid = 2;
+
+	repeated QTE_Beat qte = 3;
+
+}
+
+
+message C2S_Item{
+
+	required string roleid = 1;
+
+	required string froleid = 2;
+
+	required string itemid = 3;
+
+}
+
+message S2C_Item{
+
+	required string roleid = 1;
+
+	required string froleid = 2;
+
+	required string itemid = 3;
+
+}
+
+message S2C_FightResult{
+
+        required string roleid = 1;
+
+	required string froleid = 2;
+
+	required int32 win = 4;//1: win | 2: lose | 3: run | 4: timeout
+
+	required int32 type = 5; //1: pk | 2: rank 
+
+	required string equipment = 10; //equip you used in play
+
+}
+
+message C2S_FightResult{
+
+        required string roleid = 1;
+
+	required string froleid = 2;
+
+	required int32 win = 4;//1: win | 2: lose | 3: run | 4: timeout
+
+	required int32 type = 5; //1: pk | 2: rank 
+
+	required string equipment = 10; //equip you used in play
+
+}
+
+message C2S_Friend{
+
+	required string roleid = 1;
+
+	optional int32  num = 2;
+
+	optional int32  index = 3;
+
+	optional int32  length = 4;
+
+}
+
+message S2C_Friend{
+
+	required string roleid = 1;
+
+	required string flist = 2;
+
+}
+message C2S_AddFriend{
+
+	required string roleid = 1;
+
+	required string flist = 2;
+
+}
+
+message S2C_AddFriend{
+
+	required string roleid = 1;
+
+	required string flist = 2;
+
+}

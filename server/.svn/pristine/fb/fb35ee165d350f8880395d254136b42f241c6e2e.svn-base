@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<root ip="172.17.83.254" path="/tmp/" modify="2010-05-19" table="monitor">
+	<prog timer="1" cmd="zl_cpu.pl 1 manager 60 0 80 0"></prog>
+	<prog timer="1" cmd="disk.sh 1 manager 60 0 80 0"></prog>
+	<prog timer="1" cmd="disk1.sh ager 60 0 80 0"></prog>
+</root>

@@ -1,0 +1,5 @@
+<root>
+	<prog MType=1 timer="1" cmd="/usr/home/litanhua/Test/script/check.pl 1 manager 60 0 80 0"></prog>
+	<prog MType=3 timer="1" cmd="/usr/home/litanhua/Test/script/start.pl ager 60 0 80 0"></prog>
+</root>
+

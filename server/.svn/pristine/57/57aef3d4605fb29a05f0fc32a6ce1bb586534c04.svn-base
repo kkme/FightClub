@@ -1,0 +1,4 @@
+#!/bin/bash
+
+
+kill -9 `ps aux | grep Client | awk '{ print $2}'`

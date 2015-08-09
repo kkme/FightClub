@@ -1,0 +1,4 @@
+[Cache]
+refresh = 600  //for PK, Rank top
+limit = 100
+cleanup = 600  //Lru

@@ -1,0 +1,37 @@
+[LogserviceTcpServer]
+type			=	tcp
+port			=	11100
+address			=	0.0.0.0
+so_sndbuf		=	16384
+so_rcvbuf		=	16384
+ibuffermax		=	2097152
+obuffermax		=	16384
+tcp_nodelay		=	0
+listen_backlog	=	10
+accumulate		=	2097152
+
+
+[timeout]
+interval = 15000
+
+[Version]
+version = 0.1.0
+path  = config
+
+[DataBase]
+host = tcp://localhost:3306
+user = root
+pass = 
+name = FightClub
+size = 20
+
+[Default]
+item = shoes_0000:1;pants_0000:1;shirt_0000:1;face_0000:1;mouth_0000:3;eye_0000:1;hair_0000:1;weapon_0000:1;
+equip = equip_001:1;equip_003:2;
+buff = buff_0001:1;buff_0004:2;
+
+[ThreadPool]
+size = 20
+
+[Game]
+bulletin = Hello World!

@@ -1,0 +1,11 @@
+[DataBase]
+host = tcp://localhost:3306
+user = root
+pass = 
+name = FightClub
+size = 20
+
+[Default]
+item = shoes_0000:1;pants_0000:1;shirt_0000:1;face_0000:1;mouth_0000 eye_0000:1;hair_0000:1;weapon_0000:1;
+equip = equip_001:1;equip_003:2;
+buff = buff_0001:1;buff_0004:2;

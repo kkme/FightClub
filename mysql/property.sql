@@ -1,0 +1,1 @@
+select Pro.uid, Pro.hp, Pro.rank, Pro.faint, Dr.id as dress_id, Dr.defens, Prop.id as prop_id, Prop.harm, En.id as energy_id, En.defens, En.addhp from Property  Pro, Dress Dr, Prop, Energy  En where Pro.uid="LiTanHua" and Pro.dress_id = Dr.id and Pro.prop_id = Prop.id and Pro.energy_id = En.id;
